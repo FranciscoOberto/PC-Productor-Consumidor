@@ -55,7 +55,7 @@ public class Revisor implements Runnable{
         }
     }
 
-    public synchronized void aumentartotalRevisados() {
+    public static synchronized void aumentartotalRevisados() {
         totalRevisados++;
     }
 

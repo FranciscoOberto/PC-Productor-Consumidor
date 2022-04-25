@@ -44,7 +44,7 @@ public class Creador implements Runnable{
         }
     }
 
-    public synchronized void aumentartotalCreados() {
+    public static synchronized void aumentartotalCreados() {
         totalCreados++;
     }
 

@@ -13,7 +13,7 @@ public class Consumidor implements Runnable {
 
     private int cantidadConsumidos;
 
-    private static final int MAXIMAS_CONSUMISIONES = 10;
+    private static final int MAXIMAS_CONSUMISIONES = 1;
 
 
     /** Constructor con parametros  */
@@ -26,7 +26,7 @@ public class Consumidor implements Runnable {
 
     }
 
-    public synchronized void aumentarConsumisiones() {
+    public static synchronized void aumentarConsumisiones() throws InterruptedException{
         totalConsumidos++;
     }
 
