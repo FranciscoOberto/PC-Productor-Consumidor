@@ -2,8 +2,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Revisor implements Runnable{
     private int N_REVISORES;
-    private Buffer bufferInicial;
-    private Buffer bufferValidado;
+    private final Buffer bufferInicial;
+    private final Buffer bufferValidado;
     private Integer cantidadRevisados;
     private static int totalRevisados = 0;
     private final int demora;
@@ -18,11 +18,9 @@ public class Revisor implements Runnable{
 
     @Override
     public void run(){
-        while(true){
+        do {
             revisar();
-            if (bufferValidado.getConsumidos() == Consumidor.getMaximasConsumisiones())
-                break;
-        }
+        } while (bufferValidado.getConsumidos() != Consumidor.getMaximasConsumisiones());
         System.out.println("Revisor: revisados = " + cantidadRevisados + " Total revisados = "+ getTotalRevisados());
         //System.out.println("Revisor: revisados = " + cantidadRevisados);
     }
@@ -43,8 +41,6 @@ public class Revisor implements Runnable{
                 aumentartotalRevisados();
                 this.copiar(dato);
             }
-        }catch (NullPointerException e) {
-
         }catch (Exception e) {
             e.printStackTrace();
         }

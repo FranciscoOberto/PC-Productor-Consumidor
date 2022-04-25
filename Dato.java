@@ -4,7 +4,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class Dato {
 
     public final HashSet<Revisor> reviews;
-    private ReentrantReadWriteLock lock;
+    private final ReentrantReadWriteLock lock;
     private static int static_id = 0;
     private final int id;
 
@@ -31,7 +31,7 @@ public class Dato {
      *
      * @param revisor El revisor a agregar
      */
-    public void addReviewer (Revisor revisor) throws Exception{
+    public void addReviewer (Revisor revisor) {
         this.lock.writeLock().lock();
         this.reviews.add(revisor);
         this.lock.writeLock().unlock();

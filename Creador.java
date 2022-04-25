@@ -1,8 +1,8 @@
 import java.util.concurrent.TimeUnit;
 
 public class Creador implements Runnable{
-    private Buffer bufferInicial;
-    private Buffer bufferValidado;
+    private final Buffer bufferInicial;
+    private final Buffer bufferValidado;
     private int cantidadCreados;
     private final long demora;
     private static int totalCreados = 0;
@@ -21,11 +21,9 @@ public class Creador implements Runnable{
     }
     @Override
     public void run(){
-        while(true){
+        do {
             crear();
-            if (bufferValidado.getConsumidos() == Consumidor.getMaximasConsumisiones())
-                break;
-        }
+        } while (bufferValidado.getConsumidos() != Consumidor.getMaximasConsumisiones());
         System.out.println("Creador: creados = " + cantidadCreados + " Total creados = " + getTotalCreados());
     }
 
@@ -41,9 +39,7 @@ public class Creador implements Runnable{
             aumentartotalCreados();
             //System.out.println("Creados: " + cantidadCreados + ' ' + Thread.currentThread().getName());
             this.bufferInicial.agregarDato(nuevoDato);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

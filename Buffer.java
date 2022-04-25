@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.Random;
@@ -7,10 +6,10 @@ import java.util.Random;
 public class Buffer {
 
     private final int LimiteDatos;
-    private HashMap<Integer, Dato> datos;
+    private final HashMap<Integer, Dato> datos;
     private int rechazados;
     private final ReentrantReadWriteLock lock;
-    private Buffer buffer;
+    private final Buffer buffer;
     private int consumidos;
 
     /**
