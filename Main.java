@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Main {
     public  static final int bufferSize = 100;
-    public static final double tiempoDeCreacion = 100;
+    public static final double tiempoDeCreacion = 0;
     public static final double tiempoDeRevision = 0;
     public static final double tiempoDeConsumision = 0;
     public static final double tiempoLog = 0;
@@ -11,12 +11,7 @@ public class Main {
     public static final int N_CONSUMIDORES = 2;
 
     public static void main(String[] s) {
-        for (int i=0;i<100;i++){
-            //run();
-        }
-    }
 
-    public static void run{
         long startTime = System.currentTimeMillis();
         Buffer bufferInicial = new Buffer(bufferSize, null);
         Buffer bufferValidado = new Buffer(bufferSize, bufferInicial);
@@ -37,7 +32,7 @@ public class Main {
         }
 
         for (int i = 0; i < N_CONSUMIDORES; i++) {
-            Consumidor consumidor = new Consumidor(bufferValidado, bufferInicial, (int) tiempoDeConsumision);
+            Consumidor consumidor = new Consumidor(bufferValidado, (int) tiempoDeConsumision);
             Thread thread = new Thread(consumidor);
             threads.add(thread);
         }

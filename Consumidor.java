@@ -5,15 +5,13 @@ public class Consumidor implements Runnable {
     private static int totalConsumidos = 0;
     private final int demoraConsumidor;
     private final Buffer bufferValidado;
-    private final Buffer bufferInicial;
     private int cantidadConsumidos;
     private static final int MAXIMAS_CONSUMISIONES = 1000;
     private static final Object controlConsumisiones = new Object();
 
     /** Constructor con parametros  */
-    public Consumidor(Buffer bufferValidado, Buffer bufferInicial,int demoraConsumidor) {
+    public Consumidor(Buffer bufferValidado, int demoraConsumidor) {
         this.demoraConsumidor = demoraConsumidor;
-        this.bufferInicial = bufferInicial;
         this.bufferValidado = bufferValidado;
         cantidadConsumidos =  0;
     }
@@ -66,7 +64,7 @@ public class Consumidor implements Runnable {
             }
         } while (bufferValidado.getConsumidos() < MAXIMAS_CONSUMISIONES);
         //System.out.println(" Total consumidos = "+ getTotalConsumidos());
-        //System.out.println("Consumidor: consumidos = " + cantidadConsumidos);
+        System.out.println("Consumidor: consumidos = " + cantidadConsumidos + " Total consumidos = "+ getTotalConsumidos());
     }
 
 }
