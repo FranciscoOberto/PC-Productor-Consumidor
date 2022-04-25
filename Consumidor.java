@@ -57,7 +57,7 @@ public class Consumidor implements Runnable {
                 break;
         }
         //System.out.println("Consumidor: consumidos = " + cantidadConsumidos + " Total consumidos = "+ getTotalConsumidos());
-        System.out.println("Consumidor: " + cantidadConsumidos);
+        System.out.println("Consumidor: consumidos = " + cantidadConsumidos);
     }
 
 }
