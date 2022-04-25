@@ -34,7 +34,8 @@ public class Log implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //this.writer.println("Cantidad de datos procesados: " + bufferValidado.getConsumidos());
+        this.writer.println("Tiempo transcurrido: " + System.nanoTime());
+        this.writer.println("Cantidad de datos procesados: " + bufferValidado.getConsumidos());
         this.writer.println("Ocupacion Buffer Inical: " + bufferInicial.getCantidadDatos());
         this.writer.println("Ocupacion Buffer Validado: " + bufferValidado.getCantidadDatos());
     }
