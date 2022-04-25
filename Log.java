@@ -25,7 +25,7 @@ public class Log implements Runnable {
     public void run() {
         do {
             imprimir();
-        } while (bufferValidado.getConsumidos() != Consumidor.getMaximasConsumisiones());
+        } while (bufferValidado.getConsumidos() < Consumidor.getMaximasConsumisiones());
     }
 
     public void imprimir() {

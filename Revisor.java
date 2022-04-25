@@ -20,7 +20,7 @@ public class Revisor implements Runnable{
     public void run(){
         do {
             revisar();
-        } while (bufferValidado.getConsumidos() != Consumidor.getMaximasConsumisiones());
+        } while (bufferValidado.getConsumidos() < Consumidor.getMaximasConsumisiones());
         System.out.println("Revisor: revisados = " + cantidadRevisados + " Total revisados = "+ getTotalRevisados());
         //System.out.println("Revisor: revisados = " + cantidadRevisados);
     }

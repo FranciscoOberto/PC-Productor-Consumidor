@@ -90,11 +90,6 @@ public class Buffer {
         this.datos.remove(dato.getId());
         this.buffer.BorrarDato(dato.getId());
         this.consumidos++;
-        try {
-            TimeUnit.SECONDS.sleep((long) 0.1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         this.lock.writeLock().unlock();
         return true;
     }
