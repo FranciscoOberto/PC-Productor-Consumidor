@@ -65,8 +65,9 @@ public class Consumidor implements Runnable {
 
             }
         } while (bufferValidado.getConsumidos() < MAXIMAS_CONSUMISIONES);
-        //System.out.println(" Total consumidos = "+ getTotalConsumidos());
-        //System.out.println("Consumidor: consumidos = " + cantidadConsumidos);
+        if (totalConsumidos != MAXIMAS_CONSUMISIONES){
+            System.out.println("consumisiones no adecuadas");
+        }
     }
 
 }

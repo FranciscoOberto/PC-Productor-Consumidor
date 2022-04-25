@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Main {
     public  static final int bufferSize = 100;
-    public static final double tiempoDeCreacion = 100;
+    public static final double tiempoDeCreacion = 0;
     public static final double tiempoDeRevision = 0;
     public static final double tiempoDeConsumision = 0;
     public static final double tiempoLog = 0;
@@ -11,12 +11,21 @@ public class Main {
     public static final int N_CONSUMIDORES = 2;
 
     public static void main(String[] s) {
+        ArrayList<Long> times = new ArrayList<>();
         for (int i=0;i<100;i++){
-            //run();
+            times.add(Main.run());
+            System.out.println("Fin ejecucion " + i);
         }
+        System.out.println(times);
+        int sum = 0;
+        for (long num: times) {
+            sum += 0;
+        }
+        long mean = sum/times.size();
+        System.out.println(mean);
     }
 
-    public static void run{
+    public static long run(){
         long startTime = System.currentTimeMillis();
         Buffer bufferInicial = new Buffer(bufferSize, null);
         Buffer bufferValidado = new Buffer(bufferSize, bufferInicial);
@@ -57,6 +66,6 @@ public class Main {
         logThread.start();
 
         long endTime = System.currentTimeMillis();
-        System.out.println((endTime - startTime));
+        return (endTime - startTime);
     }
 }
