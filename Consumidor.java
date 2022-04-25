@@ -2,7 +2,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Consumidor implements Runnable {
 
-    private static int totalConsumidos = 0;
+    public static int totalConsumidos = 0;
     private final int demoraConsumidor;
     private final Buffer bufferValidado;
     private final Buffer bufferInicial;
@@ -66,7 +66,7 @@ public class Consumidor implements Runnable {
             }
         } while (bufferValidado.getConsumidos() < MAXIMAS_CONSUMISIONES);
         if (totalConsumidos != MAXIMAS_CONSUMISIONES){
-            System.out.println("consumisiones no adecuadas");
+            System.out.println("consumisiones no adecuadas " + totalConsumidos);
         }
     }
 

@@ -13,13 +13,13 @@ public class Main {
     public static void main(String[] s) {
         ArrayList<Long> times = new ArrayList<>();
         for (int i=0;i<100;i++){
-            times.add(Main.run());
+            times.add(run());
             System.out.println("Fin ejecucion " + i);
         }
         System.out.println(times);
         int sum = 0;
         for (long num: times) {
-            sum += 0;
+            sum += num;
         }
         long mean = sum/times.size();
         System.out.println(mean);
@@ -30,6 +30,8 @@ public class Main {
         Buffer bufferInicial = new Buffer(bufferSize, null);
         Buffer bufferValidado = new Buffer(bufferSize, bufferInicial);
         Log log = new Log(bufferInicial, bufferValidado, tiempoLog);
+
+        Consumidor.totalConsumidos = 0;
 
         ArrayList<Thread> threads = new ArrayList<Thread>();
 
@@ -51,19 +53,19 @@ public class Main {
             threads.add(thread);
         }
 
-        for (int i = 0; i < threads.size(); i++) {
-            threads.get(i).start();
-        }
-
-        for (int i = 0; i < threads.size(); i++) {
-            try {
-                threads.get(i).join();
-            } catch (InterruptedException e) {
-            }
+        for (Thread value : threads) {
+            value.start();
         }
 
         Thread logThread = new Thread(log);
         logThread.start();
+
+        for (Thread thread : threads) {
+            try {
+                thread.join();
+            } catch (InterruptedException ignored) {
+            }
+        }
 
         long endTime = System.currentTimeMillis();
         return (endTime - startTime);
