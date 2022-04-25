@@ -17,7 +17,7 @@ public class Main {
         ArrayList<Thread> threads= new ArrayList<Thread>();
 
         for(int i=0; i < N_CREADORES; i++){
-            Creador creador = new Creador(bufferInicial, tiempoDeCreacion);
+            Creador creador = new Creador(bufferInicial, bufferValidado, tiempoDeCreacion);
             Thread thread = new Thread(creador);
             threads.add(thread);
         }

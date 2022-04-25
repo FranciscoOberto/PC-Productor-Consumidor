@@ -17,24 +17,29 @@ public class Revisor implements Runnable{
     }
 
     public void run(){
-        while(Consumidor.getTotalConsumidos() < Consumidor.getMaximasConsumisiones()){
+        while(true){
             revisar();
+            if (bufferValidado.getConsumidos() == Consumidor.getMaximasConsumisiones())
+                break;
         }
-        //System.out.println("Revisor: " + getTotalRevisados());
-        System.out.println("Revisor: " + cantidadRevisados);
+        //System.out.println("Revisor: revisados = " + cantidadRevisados + " Total revisados = "+ getTotalRevisados());
+        System.out.println("Revisor: revisados = " + cantidadRevisados);
     }
 
     public void revisar(){
+        if (this.bufferInicial.estaVacio())
+            return;
         try {
             Dato dato = this.bufferInicial.obtenerDato();
-            if (dato == null)
+            if (dato == null) {
+                System.out.println("revisar dato null" + " \n");
                 return;
+            }
             if (!dato.revisadoPor(this)) {
                 TimeUnit.SECONDS.sleep(this.demora);
                 dato.addReviewer(this);
                 cantidadRevisados++;
                 aumentartotalRevisados();
-                //System.out.println("Revisados: " + cantidadRevisados + ' ' + Thread.currentThread().getName());
                 this.copiar(dato);
             }
         }catch (NullPointerException e) {
@@ -48,7 +53,7 @@ public class Revisor implements Runnable{
         Dato copia;
         if(dato.getReviewersCount() == this.N_REVISORES){
             try {
-                copia = dato.clone();
+                copia = dato.copiar();
                 this.bufferValidado.agregarDato(copia);
             } catch (Exception e) {
                 e.printStackTrace();

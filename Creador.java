@@ -2,6 +2,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Creador implements Runnable{
     private Buffer bufferInicial;
+    private Buffer bufferValidado;
     private int cantidadCreados;
     private final long demora;
     private static int totalCreados = 0;
@@ -12,17 +13,20 @@ public class Creador implements Runnable{
      * @param bufferInicial Buffer donde enviar los datos creados.
      * @param demora Cuanto tiempo demora en crear un dato
      */
-    public Creador(Buffer bufferInicial, long demora){
+    public Creador(Buffer bufferInicial, Buffer bufferValidado, long demora){
         this.bufferInicial = bufferInicial;
+        this.bufferValidado = bufferValidado;
         this.cantidadCreados = 0;
         this.demora = demora;
     }
 
     public void run(){
-        while(Consumidor.getTotalConsumidos() < Consumidor.getMaximasConsumisiones()){
+        while(true){
             crear();
+            if (bufferValidado.getConsumidos() == Consumidor.getMaximasConsumisiones())
+                break;
         }
-        System.out.println("Creador: " + getTotalCreados());
+        System.out.println("Creador: creados = " + cantidadCreados + " Total creados = " + getTotalCreados());
     }
 
     /**

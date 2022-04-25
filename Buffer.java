@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.Random;
 
@@ -10,6 +11,7 @@ public class Buffer {
     private int rechazados;
     private final ReentrantReadWriteLock lock;
     private Buffer buffer;
+    private int consumidos;
 
     /**
      * Constructor con parámetros
@@ -22,6 +24,7 @@ public class Buffer {
         this.lock = new ReentrantReadWriteLock();
         this.rechazados = 0;
         this.buffer = buffer;
+        this.consumidos = 0;
     }
 
     /**
@@ -31,7 +34,6 @@ public class Buffer {
      * @param dato El dato a agregar en el Buffer.
      */
     public void agregarDato(Dato dato) throws Exception {
-        //Metemos todo dentro de un writeLock para que size no cambie hasta que se agrega el Dato.
         this.lock.writeLock().lock();
         if (datos.size() == LimiteDatos){
             this.rechazados++;
@@ -53,16 +55,14 @@ public class Buffer {
      */
     public Dato obtenerDato() {
         this.lock.readLock().lock();
-        if (datos.isEmpty()) {
+        Random generator = new Random();
+        Object[] values = this.datos.values().toArray();
+        this.lock.readLock().unlock();
+        if (values.length == 0) {
             this.lock.readLock().unlock();
             return null;
         }
-        Random generator = new Random();
-        Set keySet = datos.keySet();
-        //Object[] values = this.datos.values().toArray();
-        int key = generator.nextInt(keySet.size());
-        this.lock.readLock().unlock();
-        return datos.get(key);
+        return (Dato) values[generator.nextInt(values.length)];
     }
 
     /**
@@ -70,30 +70,47 @@ public class Buffer {
      * @param id El id del dato a eliminar del Buffer.
      */
     public void BorrarDato(int id){
-        //this.lock.writeLock().lock();
+        this.lock.writeLock().lock();
         datos.remove(id);
-        //this.lock.writeLock().unlock();
+        this.lock.writeLock().unlock();
     }
 
     public boolean consumirDato(){
         this.lock.writeLock().lock();
-        //Dato dato = this.obtenerDato();
-        if (datos.isEmpty()) {
+        Random generator = new Random();
+        Object[] values = this.datos.values().toArray();
+        if (values.length == 0) {
             this.lock.writeLock().unlock();
             return false;
         }
-        Random generator = new Random();
-        Set keySet = datos.keySet();
-        int key = generator.nextInt(keySet.size());
-        Dato dato = datos.get(key);
+        Dato dato = (Dato) values[generator.nextInt(values.length)];
         if (dato == null) {
             this.lock.writeLock().unlock();
             return false;
         }
         this.datos.remove(dato.getId());
         this.buffer.BorrarDato(dato.getId());
+        this.consumidos++;
+        try {
+            TimeUnit.SECONDS.sleep((long) 0.1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         this.lock.writeLock().unlock();
         return true;
     }
 
+    public int getConsumidos() {
+        this.lock.readLock().lock();
+        int consumidos = this.consumidos;
+        this.lock.readLock().unlock();
+        return consumidos;
+    }
+
+    public boolean estaVacio() {
+        this.lock.readLock().lock();
+        boolean vacio = this.datos.isEmpty();
+        this.lock.readLock().unlock();
+        return vacio;
+    }
 }

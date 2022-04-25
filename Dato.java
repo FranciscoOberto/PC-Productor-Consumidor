@@ -49,11 +49,6 @@ public class Dato {
     }
 
     /**
-     * Verifica si el dato está validad
-     *
-     */
-
-    /**
      * Verifica que el validador no haya revisado el dato anteriormente
      *
      * @param revisor El revisor del cual se quiere validar
@@ -70,10 +65,11 @@ public class Dato {
      * Realiza la copia de un dato
      *
      */
-    public Dato clone(){
+    public Dato copiar(){
         this.lock.readLock().lock();
-        HashSet<Revisor> reviews = (HashSet<Revisor>) this.reviews.clone();
-        Dato dato = new Dato(this.id, reviews);
+        HashSet<Revisor> reviewsCopy = new HashSet<>();
+        reviewsCopy.addAll(reviews);
+        Dato dato = new Dato(this.id, reviewsCopy);
         this.lock.readLock().unlock();
         return dato;
     }

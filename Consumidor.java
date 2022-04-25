@@ -7,18 +7,20 @@ public class Consumidor implements Runnable {
     private Buffer bufferValidado;
     private Buffer bufferInicial;
     private int cantidadConsumidos;
-    private static final int MAXIMAS_CONSUMISIONES = 50;
+    private static final int MAXIMAS_CONSUMISIONES = 1000;
+    private final Object controlConsumisiones;
 
     /** Constructor con parametros  */
     public Consumidor(Buffer bufferValidado, Buffer bufferInicial,int demoraConsumidor) {
         this.demoraConsumidor = demoraConsumidor;
         this.bufferInicial = bufferInicial;
         this.bufferValidado = bufferValidado;
-        cantidadConsumidos =  0 ;
+        cantidadConsumidos =  0;
+        controlConsumisiones = new Object();
     }
 
     public synchronized void aumentarConsumisiones() throws InterruptedException{
-        synchronized (this) {
+        synchronized (controlConsumisiones) {
             totalConsumidos++;
         }
     }
@@ -32,14 +34,11 @@ public class Consumidor implements Runnable {
     }
 
     public void consumir(){
+        if (this.bufferValidado.estaVacio())
+            return;
         try {
             TimeUnit.SECONDS.sleep(this.demoraConsumidor);
             boolean consumido = bufferValidado.consumirDato();
-            //if (dato == null)
-            //    return;
-            //int id = dato.getId();
-            //bufferInicial.BorrarDato(id);
-            //bufferValidado.BorrarDato(id);
             if (consumido) {
                 cantidadConsumidos++;
                 aumentarConsumisiones();
@@ -52,14 +51,12 @@ public class Consumidor implements Runnable {
 
     @Override
     public void run(){
-        while(totalConsumidos< MAXIMAS_CONSUMISIONES) {
-            try {
-                consumir();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        while(true) {
+            consumir();
+            if (bufferValidado.getConsumidos() == MAXIMAS_CONSUMISIONES)
+                break;
         }
-        //System.out.println("Consumidor: " + getTotalConsumidos());
+        //System.out.println("Consumidor: consumidos = " + cantidadConsumidos + " Total consumidos = "+ getTotalConsumidos());
         System.out.println("Consumidor: " + cantidadConsumidos);
     }
 
