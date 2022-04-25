@@ -9,7 +9,7 @@ public class Main {
     public static final int N_REVISORES = 2;
     public static final int N_CONSUMIDORES = 2;
 
-
+// comentario
     public static void main(String[] s){
         Buffer bufferInicial = new Buffer(bufferSize);
         Buffer bufferValidado = new Buffer(bufferSize);
