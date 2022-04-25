@@ -9,10 +9,10 @@ public class Main {
     public static final int N_REVISORES = 2;
     public static final int N_CONSUMIDORES = 2;
 
-// comentario
+
     public static void main(String[] s){
-        Buffer bufferInicial = new Buffer(bufferSize);
-        Buffer bufferValidado = new Buffer(bufferSize);
+        Buffer bufferInicial = new Buffer(bufferSize , null);
+        Buffer bufferValidado = new Buffer(bufferSize, bufferInicial);
 
         ArrayList<Thread> threads= new ArrayList<Thread>();
 

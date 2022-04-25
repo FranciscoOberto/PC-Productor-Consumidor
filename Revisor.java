@@ -20,7 +20,8 @@ public class Revisor implements Runnable{
         while(Consumidor.getTotalConsumidos() < Consumidor.getMaximasConsumisiones()){
             revisar();
         }
-        System.out.println("Revisor: " + getTotalRevisados());
+        //System.out.println("Revisor: " + getTotalRevisados());
+        System.out.println("Revisor: " + cantidadRevisados);
     }
 
     public void revisar(){
@@ -34,8 +35,8 @@ public class Revisor implements Runnable{
                 cantidadRevisados++;
                 aumentartotalRevisados();
                 //System.out.println("Revisados: " + cantidadRevisados + ' ' + Thread.currentThread().getName());
+                this.copiar(dato);
             }
-            this.copiar(dato);
         }catch (NullPointerException e) {
 
         }catch (Exception e) {

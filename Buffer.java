@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Set;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.Random;
 
@@ -8,17 +9,19 @@ public class Buffer {
     private HashMap<Integer, Dato> datos;
     private int rechazados;
     private final ReentrantReadWriteLock lock;
+    private Buffer buffer;
 
     /**
      * Constructor con parámetros
      * Inicializa las variables de instancia
      * @param LimiteDatos Cantidad máxima de datos.
      */
-    public Buffer(int LimiteDatos) {
+    public Buffer(int LimiteDatos, Buffer buffer) {
         this.LimiteDatos = LimiteDatos;
         this.datos = new HashMap<>();
         this.lock = new ReentrantReadWriteLock();
         this.rechazados = 0;
+        this.buffer = buffer;
     }
 
     /**
@@ -34,7 +37,8 @@ public class Buffer {
             this.rechazados++;
             this.lock.writeLock().unlock();
             return;
-        }else if (datos.size() > LimiteDatos){
+        }
+        else if (datos.size() > LimiteDatos) {
             this.lock.writeLock().unlock();
             throw new Exception("Buffer rebalsado Exception" + this.datos.size());
         }
@@ -47,16 +51,18 @@ public class Buffer {
      * Obtiene un dato del Buffer.
      * Si no hay datos o si están en uso, devuelve null.
      */
-    public Dato obtenerDato() throws NullPointerException{
+    public Dato obtenerDato() {
         this.lock.readLock().lock();
         if (datos.isEmpty()) {
             this.lock.readLock().unlock();
-            throw new NullPointerException("Buffer vacio");
+            return null;
         }
         Random generator = new Random();
-        Object[] values = this.datos.values().toArray();
+        Set keySet = datos.keySet();
+        //Object[] values = this.datos.values().toArray();
+        int key = generator.nextInt(keySet.size());
         this.lock.readLock().unlock();
-        return (Dato) values[generator.nextInt(values.length)];
+        return datos.get(key);
     }
 
     /**
@@ -64,17 +70,30 @@ public class Buffer {
      * @param id El id del dato a eliminar del Buffer.
      */
     public void BorrarDato(int id){
-        this.lock.writeLock().lock();
+        //this.lock.writeLock().lock();
         datos.remove(id);
-        this.lock.writeLock().unlock();
+        //this.lock.writeLock().unlock();
     }
 
-    public int consumirDato(){
+    public boolean consumirDato(){
         this.lock.writeLock().lock();
-        int id = obtenerDato().getId();
-        datos.remove(id);
+        //Dato dato = this.obtenerDato();
+        if (datos.isEmpty()) {
+            this.lock.writeLock().unlock();
+            return false;
+        }
+        Random generator = new Random();
+        Set keySet = datos.keySet();
+        int key = generator.nextInt(keySet.size());
+        Dato dato = datos.get(key);
+        if (dato == null) {
+            this.lock.writeLock().unlock();
+            return false;
+        }
+        this.datos.remove(dato.getId());
+        this.buffer.BorrarDato(dato.getId());
         this.lock.writeLock().unlock();
-        return id;
+        return true;
     }
 
 }
