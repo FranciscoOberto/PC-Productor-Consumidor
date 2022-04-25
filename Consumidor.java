@@ -7,7 +7,7 @@ public class Consumidor implements Runnable {
     private final Buffer bufferValidado;
     private final Buffer bufferInicial;
     private int cantidadConsumidos;
-    private static final int MAXIMAS_CONSUMISIONES = 100;
+    private static final int MAXIMAS_CONSUMISIONES = 1000;
     private static final Object controlConsumisiones = new Object();
 
     /** Constructor con parametros  */
@@ -38,7 +38,7 @@ public class Consumidor implements Runnable {
         if (this.bufferValidado.estaVacio())
             return;
         try {
-            TimeUnit.SECONDS.sleep(this.demoraConsumidor);
+            TimeUnit.MILLISECONDS.sleep(this.demoraConsumidor);
             synchronized (controlConsumisiones) {
                 if (totalConsumidos >= MAXIMAS_CONSUMISIONES)
                     throw new InterruptedException();
@@ -65,7 +65,7 @@ public class Consumidor implements Runnable {
 
             }
         } while (bufferValidado.getConsumidos() < MAXIMAS_CONSUMISIONES);
-        System.out.println("Consumidor: consumidos = " + cantidadConsumidos + " Total consumidos = "+ getTotalConsumidos());
+        //System.out.println(" Total consumidos = "+ getTotalConsumidos());
         //System.out.println("Consumidor: consumidos = " + cantidadConsumidos);
     }
 

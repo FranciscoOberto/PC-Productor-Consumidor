@@ -24,7 +24,7 @@ public class Creador implements Runnable{
         do {
             crear();
         } while (bufferValidado.getConsumidos() < Consumidor.getMaximasConsumisiones());
-        System.out.println("Creador: creados = " + cantidadCreados + " Total creados = " + getTotalCreados());
+        //System.out.println("Creador: creados = " + cantidadCreados + " Total creados = " + getTotalCreados());
     }
 
     /**
@@ -34,7 +34,7 @@ public class Creador implements Runnable{
     public void crear(){
         try {
             Dato nuevoDato= new Dato();
-            TimeUnit.SECONDS.sleep(this.demora);
+            TimeUnit.MILLISECONDS.sleep(this.demora);
             this.cantidadCreados++;
             aumentartotalCreados();
             //System.out.println("Creados: " + cantidadCreados + ' ' + Thread.currentThread().getName());

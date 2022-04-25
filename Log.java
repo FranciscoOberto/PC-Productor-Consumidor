@@ -26,11 +26,15 @@ public class Log implements Runnable {
         do {
             imprimir();
         } while (bufferValidado.getConsumidos() < Consumidor.getMaximasConsumisiones());
+        this.writer.println("Tiempo transcurrido: " + System.nanoTime());
+        this.writer.println("Cantidad de datos procesados: " + bufferValidado.getConsumidos());
+        this.writer.println("Ocupacion Buffer Inical: " + bufferInicial.getCantidadDatos());
+        this.writer.println("Ocupacion Buffer Validado: " + bufferValidado.getCantidadDatos());
     }
 
     public void imprimir() {
         try {
-            TimeUnit.SECONDS.sleep((long) this.demora);
+            TimeUnit.MILLISECONDS.sleep((long) this.demora);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

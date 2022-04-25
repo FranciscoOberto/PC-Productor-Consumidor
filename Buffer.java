@@ -56,11 +56,11 @@ public class Buffer {
         this.lock.readLock().lock();
         Random generator = new Random();
         Object[] values = this.datos.values().toArray();
-        this.lock.readLock().unlock();
         if (values.length == 0) {
             this.lock.readLock().unlock();
             return null;
         }
+        this.lock.readLock().unlock();
         return (Dato) values[generator.nextInt(values.length)];
     }
 

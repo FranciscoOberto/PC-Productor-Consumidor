@@ -21,7 +21,7 @@ public class Revisor implements Runnable{
         do {
             revisar();
         } while (bufferValidado.getConsumidos() < Consumidor.getMaximasConsumisiones());
-        System.out.println("Revisor: revisados = " + cantidadRevisados + " Total revisados = "+ getTotalRevisados());
+        //System.out.println("Revisor: revisados = " + cantidadRevisados + " Total revisados = "+ getTotalRevisados());
         //System.out.println("Revisor: revisados = " + cantidadRevisados);
     }
 
@@ -31,11 +31,10 @@ public class Revisor implements Runnable{
         try {
             Dato dato = this.bufferInicial.obtenerDato();
             if (dato == null) {
-                System.out.println("revisar dato null" + " \n");
                 return;
             }
             if (!dato.revisadoPor(this)) {
-                TimeUnit.SECONDS.sleep(this.demora);
+                TimeUnit.MILLISECONDS.sleep(this.demora);
                 dato.addReviewer(this);
                 cantidadRevisados++;
                 aumentartotalRevisados();
