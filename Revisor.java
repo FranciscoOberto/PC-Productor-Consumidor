@@ -16,14 +16,15 @@ public class Revisor implements Runnable{
         this.N_REVISORES = N_REVISORES;
     }
 
+    @Override
     public void run(){
         while(true){
             revisar();
             if (bufferValidado.getConsumidos() == Consumidor.getMaximasConsumisiones())
                 break;
         }
-        //System.out.println("Revisor: revisados = " + cantidadRevisados + " Total revisados = "+ getTotalRevisados());
-        System.out.println("Revisor: revisados = " + cantidadRevisados);
+        System.out.println("Revisor: revisados = " + cantidadRevisados + " Total revisados = "+ getTotalRevisados());
+        //System.out.println("Revisor: revisados = " + cantidadRevisados);
     }
 
     public void revisar(){

@@ -113,4 +113,11 @@ public class Buffer {
         this.lock.readLock().unlock();
         return vacio;
     }
+
+    public int getCantidadDatos() {
+        this.lock.readLock().lock();
+        int cantidadDatos = this.datos.size();
+        this.lock.readLock().unlock();
+        return cantidadDatos;
+    }
 }
