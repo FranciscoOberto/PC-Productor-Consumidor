@@ -58,6 +58,6 @@ public class Main {
         logThread.interrupt();
 
         long endTime = System.currentTimeMillis();
-        System.out.println((endTime - startTime));
+        System.out.println("\nEjecucion terminada en "+(endTime - startTime)+"ms");
     }
 }

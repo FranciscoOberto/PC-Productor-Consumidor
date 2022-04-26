@@ -30,7 +30,7 @@ public class Log implements Runnable {
                 TimeUnit.MILLISECONDS.sleep((long) this.demora);
                 imprimir();
             }catch (InterruptedException e){
-                System.out.println("Termino");
+                System.out.println("\nFinalizacion del programa exitosa");
                 imprimir();
                 writer.close();
             }
