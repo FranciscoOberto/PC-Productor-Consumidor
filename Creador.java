@@ -24,7 +24,7 @@ public class Creador implements Runnable{
         do {
             crear();
         } while (bufferValidado.getConsumidos() < Consumidor.getMaximasConsumisiones());
-        //System.out.println("Creador: creados = " + cantidadCreados + " Total creados = " + getTotalCreados());
+        System.out.println("Creador: creados = " + cantidadCreados + " Total creados = " + getTotalCreados());
     }
 
     /**

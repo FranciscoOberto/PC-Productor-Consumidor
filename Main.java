@@ -2,10 +2,10 @@ import java.util.ArrayList;
 
 public class Main {
     public  static final int bufferSize = 100;
-    public static final double tiempoDeCreacion = 0;
-    public static final double tiempoDeRevision = 0;
-    public static final double tiempoDeConsumision = 0;
-    public static final double tiempoLog = 0;
+    public static final double tiempoDeCreacion = 7;
+    public static final double tiempoDeRevision = 5;
+    public static final double tiempoDeConsumision = 5;
+    public static final double tiempoLog = 20;
     public static final int N_CREADORES = 4;
     public static final int N_REVISORES = 2;
     public static final int N_CONSUMIDORES = 2;
@@ -37,8 +37,16 @@ public class Main {
             threads.add(thread);
         }
 
+        Thread logThread = new Thread(log);
+        logThread.start();
+
         for (int i = 0; i < threads.size(); i++) {
             threads.get(i).start();
+        }
+
+        try {
+            logThread.join();
+        } catch (InterruptedException e) {
         }
 
         for (int i = 0; i < threads.size(); i++) {
@@ -48,8 +56,7 @@ public class Main {
             }
         }
 
-        Thread logThread = new Thread(log);
-        logThread.start();
+
 
         long endTime = System.currentTimeMillis();
         System.out.println((endTime - startTime));
