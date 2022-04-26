@@ -5,18 +5,17 @@ public class Main {
     public static final double tiempoDeCreacion = 0;
     public static final double tiempoDeRevision = 0;
     public static final double tiempoDeConsumision = 0;
-    public static final double tiempoLog = 0;
+    public static final double tiempoLog = 2000;
     public static final int N_CREADORES = 4;
     public static final int N_REVISORES = 2;
     public static final int N_CONSUMIDORES = 2;
 
     public static void main(String[] s) {
         ArrayList<Long> times = new ArrayList<>();
-        for (int i=0;i<100;i++){
+        for (int i=0;i<1;i++){
             times.add(run());
             System.out.println("Fin ejecucion " + i);
         }
-        System.out.println(times);
         int sum = 0;
         for (long num: times) {
             sum += num;
@@ -58,6 +57,7 @@ public class Main {
         }
 
         Thread logThread = new Thread(log);
+        logThread.setDaemon(true);
         logThread.start();
 
         for (Thread thread : threads) {
@@ -66,6 +66,8 @@ public class Main {
             } catch (InterruptedException ignored) {
             }
         }
+
+        logThread.interrupt();
 
         long endTime = System.currentTimeMillis();
         return (endTime - startTime);

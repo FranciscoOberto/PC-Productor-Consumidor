@@ -23,21 +23,20 @@ public class Log implements Runnable {
 
     @Override
     public void run() {
-        do {
-            imprimir();
-        } while (bufferValidado.getConsumidos() < Consumidor.getMaximasConsumisiones());
-        this.writer.println("Tiempo transcurrido: " + System.nanoTime());
-        this.writer.println("Cantidad de datos procesados: " + bufferValidado.getConsumidos());
-        this.writer.println("Ocupacion Buffer Inical: " + bufferInicial.getCantidadDatos());
-        this.writer.println("Ocupacion Buffer Validado: " + bufferValidado.getCantidadDatos());
+        while (true){
+            try {
+                TimeUnit.MILLISECONDS.sleep((long) this.demora);
+                imprimir();
+            }catch (InterruptedException e){
+                System.out.println("Termino");
+                imprimir();
+                writer.close();
+            }
+        }
+
     }
 
-    public void imprimir() {
-        try {
-            TimeUnit.MILLISECONDS.sleep((long) this.demora);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public void imprimir(){
         this.writer.println("Tiempo transcurrido: " + System.nanoTime());
         this.writer.println("Cantidad de datos procesados: " + bufferValidado.getConsumidos());
         this.writer.println("Ocupacion Buffer Inical: " + bufferInicial.getCantidadDatos());
