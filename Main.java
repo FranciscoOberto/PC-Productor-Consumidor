@@ -5,7 +5,7 @@ public class Main {
     public static final double tiempoDeCreacion = 7;
     public static final double tiempoDeRevision = 5;
     public static final double tiempoDeConsumision = 5;
-    public static final double tiempoLog = 20;
+    public static final double tiempoLog = 2000;
     public static final int N_CREADORES = 4;
     public static final int N_REVISORES = 2;
     public static final int N_CONSUMIDORES = 2;
@@ -16,6 +16,7 @@ public class Main {
         Buffer bufferInicial = new Buffer(bufferSize, null);
         Buffer bufferValidado = new Buffer(bufferSize, bufferInicial);
         Log log = new Log(bufferInicial, bufferValidado, tiempoLog);
+
 
         ArrayList<Thread> threads = new ArrayList<Thread>();
 
@@ -37,26 +38,23 @@ public class Main {
             threads.add(thread);
         }
 
-        Thread logThread = new Thread(log);
-        logThread.start();
 
         for (int i = 0; i < threads.size(); i++) {
             threads.get(i).start();
         }
 
-        try {
-            logThread.join();
-        } catch (InterruptedException e) {
-        }
+        Thread logThread = new Thread(log);
+        logThread.setDaemon(true);
+        logThread.start();
 
-        for (int i = 0; i < threads.size(); i++) {
+        for (Thread thread : threads) {
             try {
-                threads.get(i).join();
-            } catch (InterruptedException e) {
+                thread.join();
+            } catch (InterruptedException ignored) {
             }
         }
 
-
+        logThread.interrupt();
 
         long endTime = System.currentTimeMillis();
         System.out.println((endTime - startTime));
