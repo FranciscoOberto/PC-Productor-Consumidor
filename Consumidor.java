@@ -6,14 +6,15 @@ public class Consumidor implements Runnable {
     private final int demoraConsumidor;
     private final Buffer bufferValidado;
     private int cantidadConsumidos;
-    private static final int MAXIMAS_CONSUMISIONES = 1000;
+    private static int MAXIMAS_CONSUMISIONES;
     private static final Object controlConsumisiones = new Object();
 
     /** Constructor con parametros  */
-    public Consumidor(Buffer bufferValidado, int demoraConsumidor) {
+    public Consumidor(Buffer bufferValidado, int demoraConsumidor, int MAXIMAS_CONSUMISIONES) {
         this.demoraConsumidor = demoraConsumidor;
         this.bufferValidado = bufferValidado;
         cantidadConsumidos =  0;
+        this.MAXIMAS_CONSUMISIONES = MAXIMAS_CONSUMISIONES;
     }
 
     public static void aumentarConsumisiones() {

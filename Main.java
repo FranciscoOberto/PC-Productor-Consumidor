@@ -9,6 +9,7 @@ public class Main {
     public static final int N_CREADORES = 4;
     public static final int N_REVISORES = 2;
     public static final int N_CONSUMIDORES = 2;
+    public static final int MAXIMAS_CONSUMISIONES = 1000;
 
     public static void main(String[] s) {
 
@@ -33,7 +34,7 @@ public class Main {
         }
 
         for (int i = 0; i < N_CONSUMIDORES; i++) {
-            Consumidor consumidor = new Consumidor(bufferValidado, (int) tiempoDeConsumision);
+            Consumidor consumidor = new Consumidor(bufferValidado, (int) tiempoDeConsumision, MAXIMAS_CONSUMISIONES);
             Thread thread = new Thread(consumidor);
             threads.add(thread);
         }
