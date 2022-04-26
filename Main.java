@@ -18,7 +18,7 @@ public class Main {
         Log log = new Log(bufferInicial, bufferValidado, tiempoLog);
 
 
-        ArrayList<Thread> threads = new ArrayList<Thread>();
+        ArrayList<Thread> threads = new ArrayList<>();
 
         for (int i = 0; i < N_CREADORES; i++) {
             Creador creador = new Creador(bufferInicial, bufferValidado, (long) tiempoDeCreacion);
@@ -39,8 +39,8 @@ public class Main {
         }
 
 
-        for (int i = 0; i < threads.size(); i++) {
-            threads.get(i).start();
+        for (Thread value : threads) {
+            value.start();
         }
 
         Thread logThread = new Thread(log);

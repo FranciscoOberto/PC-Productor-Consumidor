@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.Random;
 
@@ -7,7 +6,6 @@ public class Buffer {
 
     private final int LimiteDatos;
     private final HashMap<Integer, Dato> datos;
-    private int rechazados;
     private final ReentrantReadWriteLock lock;
     private final Buffer buffer;
     private int consumidos;
@@ -21,7 +19,6 @@ public class Buffer {
         this.LimiteDatos = LimiteDatos;
         this.datos = new HashMap<>();
         this.lock = new ReentrantReadWriteLock();
-        this.rechazados = 0;
         this.buffer = buffer;
         this.consumidos = 0;
     }
@@ -35,7 +32,6 @@ public class Buffer {
     public void agregarDato(Dato dato) throws Exception {
         this.lock.writeLock().lock();
         if (datos.size() == LimiteDatos){
-            this.rechazados++;
             this.lock.writeLock().unlock();
             return;
         }

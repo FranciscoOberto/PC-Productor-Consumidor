@@ -13,7 +13,7 @@ public class Dato {
      *
      */
     public Dato(){
-        reviews = new HashSet<Revisor>();
+        reviews = new HashSet<>();
         this.lock = new ReentrantReadWriteLock();
         static_id ++;
         this.id = static_id;
