@@ -63,7 +63,7 @@ public class Consumidor implements Runnable {
             } catch (InterruptedException e) {
 
             }
-        } while (bufferValidado.getConsumidos() < MAXIMAS_CONSUMISIONES);
+        } while (getTotalConsumidos() < MAXIMAS_CONSUMISIONES);
         //System.out.println(" Total consumidos = "+ getTotalConsumidos());
         System.out.println("Consumidor: consumidos = " + cantidadConsumidos + " Total consumidos = "+ getTotalConsumidos());
     }
